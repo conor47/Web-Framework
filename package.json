@@ -1,0 +1,26 @@
+{
+  "name": "typescript-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:db": "json-server -w db.json",
+    "start:parcel": "parcel index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/conor47/Web-Framework.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conor47/Web-Framework/issues"
+  },
+  "homepage": "https://github.com/conor47/Web-Framework#readme",
+  "dependencies": {
+    "@types/axios": "^0.14.0",
+    "axios": "^0.26.0",
+    "json-server": "^0.17.0"
+  }
+}

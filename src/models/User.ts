@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
+import { Eventing } from './Eventing';
 
-interface UserProps {
+export interface UserProps {
   name?: string;
   age?: number;
   id?: number;
@@ -8,6 +8,7 @@ interface UserProps {
 
 export class User {
   private data: UserProps;
+  public events: Eventing = new Eventing();
 
   constructor(data: UserProps) {
     this.data = data;
@@ -19,22 +20,5 @@ export class User {
 
   set(update: UserProps): void {
     Object.assign(this.data, update);
-  }
-
-  fetch(): void {
-    axios
-      .get(`http://localhost:3000/users/${this.get('id')}`)
-      .then((res: AxiosResponse): void => {
-        this.set(res.data);
-      });
-  }
-
-  save(): void {
-    const id = this.get('id');
-    if (id) {
-      axios.put(`http://localhost:3000/users/${id}`, this.data);
-    } else {
-      axios.post(`http://localhost:3000/users`, this.data);
-    }
   }
 }

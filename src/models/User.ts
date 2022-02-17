@@ -1,7 +1,7 @@
-import { Eventing } from './Eventing';
+import { Model } from './Model';
 import { Attributes } from './Attributes';
 import { Sync } from './Sync';
-import { AxiosResponse } from 'axios';
+import { Eventing } from './Eventing';
 
 export interface UserProps {
   name?: string;
@@ -11,39 +11,12 @@ export interface UserProps {
 
 const rootUrl = 'http://localhost:3000';
 
-export class User {
-  public events: Eventing = new Eventing();
-  public sync: Sync<UserProps> = new Sync(rootUrl);
-  public attributes: Attributes<UserProps>;
-
-  constructor(attrs: UserProps) {
-    this.attributes = new Attributes<UserProps>(attrs);
-  }
-
-  get on() {
-    return this.events.on;
-  }
-
-  get trigger() {
-    return this.events.trigger;
-  }
-
-  get get() {
-    return this.attributes.get;
-  }
-
-  set(update: UserProps): void {
-    this.attributes.set(update);
-    this.events.trigger('change');
-  }
-
-  fetch(): void {
-    const id = this.get('id');
-    if (typeof id !== 'number') {
-      throw new Error('cannot fetch without an id');
-    }
-    this.sync.fetch(id).then((res: AxiosResponse): void => {
-      this.set(res.data);
-    });
+export class User extends Model<UserProps> {
+  static build(attrs: UserProps): User {
+    return new User(
+      new Attributes<UserProps>(attrs),
+      new Eventing(),
+      new Sync<UserProps>(rootUrl)
+    );
   }
 }
